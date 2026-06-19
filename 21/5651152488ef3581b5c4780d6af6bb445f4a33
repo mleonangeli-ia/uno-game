@@ -1,0 +1,19 @@
+.gitignore
+  s_e04c0d4fbe322d::t_275226dafc8921 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "215651152488ef3581b5c4780d6af6bb445f4a33",
+  "prompts": {},
+  "sessions": {
+    "s_e04c0d4fbe322d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c8a83e9-2396-4ba9-a361-92ea89d712b7",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "mleonangeli <mleonangeli@gmail.com>"
+    }
+  }
+}
