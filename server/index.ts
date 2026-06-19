@@ -21,7 +21,7 @@ app.use(cors())
 if (isProd) {
   const distPath = join(__dirname, '../dist')
   app.use(express.static(distPath))
-  app.get('*', (_req, res) => res.sendFile(join(distPath, 'index.html')))
+  app.get('/{*any}', (_req, res) => res.sendFile(join(distPath, 'index.html')))
 }
 
 // Devuelve las IPs locales de la máquina para que el cliente arme el QR
