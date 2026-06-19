@@ -1,0 +1,20 @@
+package.json
+  s_e04c0d4fbe322d::t_a6103078851941 11
+  s_e04c0d4fbe322d::t_3519208f53199a 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "4e4d02f89073a444266ff239bd3d91833bad1d25",
+  "prompts": {},
+  "sessions": {
+    "s_e04c0d4fbe322d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c8a83e9-2396-4ba9-a361-92ea89d712b7",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "mleonangeli <mleonangeli@gmail.com>"
+    }
+  }
+}
