@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import { ALL, Lang, Translations } from './langs'
 
-// Detecta el idioma del navegador
+// Detecta el idioma del navegador (solo en client-side)
 function detectLang(): Lang {
+  if (typeof window === 'undefined') return 'es'   // Node.js server → default español
   const saved = localStorage.getItem('uno-lang') as Lang | null
   if (saved && ALL[saved]) return saved
   const browser = navigator.language.slice(0, 2)
