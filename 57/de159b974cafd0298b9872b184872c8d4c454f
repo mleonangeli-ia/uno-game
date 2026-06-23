@@ -1,0 +1,76 @@
+src/screens/Game.tsx
+  s_e04c0d4fbe322d::t_11b83512252a42 539,547
+  s_e04c0d4fbe322d::t_3efdd5109d76bb 467
+  s_e04c0d4fbe322d::t_c32945b4461c0c 204
+  s_e04c0d4fbe322d::t_271f905c0c5dc5 486
+  s_e04c0d4fbe322d::t_84a5d9143fed27 6,9
+  s_e04c0d4fbe322d::t_18a246c703a846 572-573
+  s_e04c0d4fbe322d::t_fb12e3f80b3829 173
+  s_e04c0d4fbe322d::t_53f2fca74ff664 510,524
+  s_e04c0d4fbe322d::t_c8f4f81e0c9369 290-297
+  s_e04c0d4fbe322d::t_c0dd0ece50ecb3 248,254
+  s_e04c0d4fbe322d::t_9a491abb15bc40 218
+src/engine/engine.ts
+  s_e04c0d4fbe322d::t_23a01424f3f8d2 188,192
+  s_e04c0d4fbe322d::t_93b563bb0ea343 134
+  s_e04c0d4fbe322d::t_46c97be6edbf04 141
+  s_e04c0d4fbe322d::t_f9dbe8ce747350 146
+  s_e04c0d4fbe322d::t_f98371dae4d488 75
+  s_e04c0d4fbe322d::t_1d6bf76810bad0 205,209
+  s_e04c0d4fbe322d::t_83733dbbce353a 68
+  s_e04c0d4fbe322d::t_3bdf950ab84c9d 90,94
+  s_e04c0d4fbe322d::t_a588d7324cd483 214
+  s_e04c0d4fbe322d::t_5607489c6b7545 234
+  s_e04c0d4fbe322d::t_3cf65aa0db9e21 158
+  s_e04c0d4fbe322d::t_5b7094478f4f98 276-277
+  s_e04c0d4fbe322d::t_2669b6d3ed4dc9 221
+  s_e04c0d4fbe322d::t_3538f85ee9863d 105
+  s_e04c0d4fbe322d::t_b3cdfb38f9b95d 164
+  s_e04c0d4fbe322d::t_8c5586c98619f6 167
+  s_e04c0d4fbe322d::t_7a67753a4fa2ce 3-6
+src/components/LanguageSelector.tsx
+  s_e04c0d4fbe322d::t_76f96c804c1873 1-29
+src/screens/Setup.tsx
+  s_e04c0d4fbe322d::t_678484088ccdbe 218
+  s_e04c0d4fbe322d::t_6bf529e55c545d 173
+  s_e04c0d4fbe322d::t_c62e165199fb4e 3-4
+  s_e04c0d4fbe322d::t_abfc5e4e88591a 111
+  s_e04c0d4fbe322d::t_417f3bacf17e67 194
+  s_e04c0d4fbe322d::t_fcf70352bbb7d2 118
+  s_e04c0d4fbe322d::t_d0fa83f9bd9c35 82-86
+  s_e04c0d4fbe322d::t_58f6718d16c5e5 20
+src/i18n/langs.ts
+  s_e04c0d4fbe322d::t_4de0758b2dd920 1-269
+src/screens/WaitingRoom.tsx
+  s_e04c0d4fbe322d::t_4e5577fc42433a 12
+  s_e04c0d4fbe322d::t_18f1abe4ed951d 79,120,143,202
+  s_e04c0d4fbe322d::t_72da6ced530289 157-158
+  s_e04c0d4fbe322d::t_239818046cf836 4
+src/components/QRCard.tsx
+  s_e04c0d4fbe322d::t_c93ab5605af557 3
+  s_e04c0d4fbe322d::t_9351349d86903f 108
+  s_e04c0d4fbe322d::t_8f7222fb9e6013 13
+src/components/ColorPicker.tsx
+  s_e04c0d4fbe322d::t_fd54c5f5867404 2,4-8,11,14,17,22-24,26,28-29,31-41,43-46
+src/screens/OnlineLobby.tsx
+  s_e04c0d4fbe322d::t_6ccdc1ffe64b14 3-4
+  s_e04c0d4fbe322d::t_58d5f87dcb7686 9
+src/i18n/index.ts
+  s_e04c0d4fbe322d::t_4f1ec16ddc63bf 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "57de159b974cafd0298b9872b184872c8d4c454f",
+  "prompts": {},
+  "sessions": {
+    "s_e04c0d4fbe322d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c8a83e9-2396-4ba9-a361-92ea89d712b7",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "mleonangeli <mleonangeli@gmail.com>"
+    }
+  }
+}
