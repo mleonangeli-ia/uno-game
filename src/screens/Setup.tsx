@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useGameStore } from '../store/gameStore'
+import { useT } from '../i18n'
+import LanguageSelector from '../components/LanguageSelector'
 
 const PLAYER_COLORS = ['#E8171E', '#0062B0', '#1B9A3D', '#F5D800']
 
@@ -15,6 +17,7 @@ const DECO = [
 
 export default function Setup() {
   const { startGame, createRoom } = useGameStore()
+  const t = useT()
   const [count, setCount] = useState(2)
   const [players, setPlayers] = useState([
     { name: 'Jugador 1', isBot: false },
@@ -76,6 +79,11 @@ export default function Setup() {
         position: 'relative', zIndex: 1,
         animation: 'fade-in 0.5s ease',
       }}>
+        {/* Idioma */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+          <LanguageSelector />
+        </div>
+
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
@@ -100,14 +108,14 @@ export default function Setup() {
             }}/>
           </div>
           <p style={{ color: 'rgba(255,255,255,0.45)', marginTop: 14, fontSize: 13, letterSpacing: 0.5 }}>
-            El clásico juego de cartas
+            {t.tagline}
           </p>
         </div>
 
         {/* Cantidad */}
         <div style={{ marginBottom: 20 }}>
           <label style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12, fontWeight: 700, display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.8 }}>
-            Jugadores
+            {t.playersLabel}
           </label>
           <div style={{ display: 'flex', gap: 8 }}>
             {[2, 3, 4].map(n => (
@@ -162,7 +170,7 @@ export default function Setup() {
                 borderRadius: 9, fontSize: 11, fontWeight: 800, cursor: 'pointer',
                 whiteSpace: 'nowrap', transition: 'all 0.15s',
               }}>
-                {players[i].isBot ? '🤖 Bot' : '👤 Human'}
+                {players[i].isBot ? t.botLabel : t.humanLabel}
               </button>
             </div>
           ))}
@@ -183,7 +191,7 @@ export default function Setup() {
           onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.025)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(232,23,30,0.55)' }}
           onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)';     e.currentTarget.style.boxShadow = '0 8px 24px rgba(232,23,30,0.45)' }}
         >
-          ¡JUGAR!
+          {t.playLocal}
         </button>
 
         {/* Divider */}
@@ -207,7 +215,7 @@ export default function Setup() {
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(30,136,229,0.28)' }}
           onMouseLeave={e => { e.currentTarget.style.background = 'rgba(30,136,229,0.15)' }}
         >
-          🌐 Multijugador online
+          {t.playOnline}
         </button>
       </div>
     </div>

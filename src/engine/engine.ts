@@ -1,6 +1,9 @@
 import { GameState, Card, CardColor, Player } from './types'
 import { createDeck, drawFromDeck } from './deck'
-import { canPlay, handPoints, colorLabel } from './rules'
+import { canPlay, handPoints } from './rules'
+import { getT } from '../i18n'
+
+const cl = (c: CardColor) => getT().colorLabel(c)
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -62,14 +65,14 @@ export function initGame(players: { name: string; isBot: boolean }[]): GameState
 
   state = applyStartCardEffect(state, startCard)
   if (!state.message) {
-    state = msg(state, `Turno de ${state.players[state.currentPlayerIndex].name}`)
+    state = msg(state, getT().msgTurn(state.players[state.currentPlayerIndex].name))
   }
   return state
 }
 
 function applyStartCardEffect(state: GameState, card: Card): GameState {
   if (card.type === 'skip') {
-    return advance(msg(state, `Carta inicial: Saltear`))
+    return advance(msg(state, getT().msgSkipInit))
   }
   if (card.type === 'reverse') {
     const newDir = -1 as -1
@@ -84,11 +87,11 @@ function applyStartCardEffect(state: GameState, card: Card): GameState {
       i === 0 ? { ...p, hand: [...p.hand, ...drawn] } : p
     )
     return advance(msg({ ...state, players: newPlayers, deck, discardPile: discard },
-      `Carta inicial: +2. ${state.players[0].name} roba 2`))
+      getT().msgDraw2Init(state.players[0].name)))
   }
   if (card.type === 'wild') {
     return { ...state, phase: 'color-pick', pendingWild: card,
-      message: `Carta inicial: Comodín. ${state.players[0].name} elige color` }
+      message: getT().msgWildInit(state.players[0].name) }
   }
   return state
 }
@@ -99,7 +102,7 @@ export function actionPlayCard(state: GameState, cardId: string): GameState {
   const player = state.players[state.currentPlayerIndex]
   const card = player.hand.find(c => c.id === cardId)
   if (!card) return state
-  if (!canPlay(card, state)) return msg(state, '❌ No podés jugar esa carta')
+  if (!canPlay(card, state)) return msg(state, getT().msgInvalid)
 
   const newHand = player.hand.filter(c => c.id !== cardId)
   const newPlayers = state.players.map((p, i) =>
@@ -128,19 +131,19 @@ function applyCardEffect(state: GameState, card: Card): GameState {
     case 'skip': {
       const skipTo = nextIdx({ ...state, currentPlayerIndex: ni })
       return msg({ ...state, currentPlayerIndex: skipTo, phase: 'playing', drawnThisTurn: null },
-        `⊘ ${next.name} fue saltead@. Turno de ${state.players[skipTo].name}`)
+        getT().msgSkip(next.name, state.players[skipTo].name))
     }
 
     case 'reverse': {
       const newDir = (state.direction * -1) as 1 | -1
       if (state.players.length === 2) {
         return msg({ ...state, direction: newDir, drawnThisTurn: null, phase: 'playing' },
-          `⇄ Reversa! Volvés a jugar vos`)
+          getT().msgReverse2)
       }
       const n = state.players.length
       const newNi = ((state.currentPlayerIndex + newDir) % n + n) % n
       return msg({ ...state, direction: newDir, currentPlayerIndex: newNi, phase: 'playing', drawnThisTurn: null },
-        `⇄ Reversa! Turno de ${state.players[newNi].name}`)
+        getT().msgReverse(state.players[newNi].name))
     }
 
     case 'draw2': {
@@ -152,16 +155,16 @@ function applyCardEffect(state: GameState, card: Card): GameState {
       return msg({
         ...state, players: newPlayers, deck, discardPile: discard,
         currentPlayerIndex: skipTo, phase: 'playing', drawnThisTurn: null,
-      }, `+2 🃏 ${next.name} roba 2 y pierde turno. Turno de ${state.players[skipTo].name}`)
+      }, getT().msgDraw2(next.name, state.players[skipTo].name))
     }
 
     case 'wild':
     case 'wild4':
       return { ...state, phase: 'color-pick', pendingWild: card,
-        message: `🌈 ${state.players[state.currentPlayerIndex].name} elige color...` }
+        message: getT().msgWild(state.players[state.currentPlayerIndex].name) }
 
     default:
-      return advance(msg(state, `Turno de ${next.name}`))
+      return advance(msg(state, getT().msgTurn(next.name)))
   }
 }
 
@@ -182,11 +185,11 @@ export function actionChooseColor(state: GameState, color: CardColor): GameState
     return msg({
       ...base, players: newPlayers, deck, discardPile: discard,
       currentPlayerIndex: skipTo, phase: 'playing', drawnThisTurn: null,
-    }, `+4 🃏 Color: ${colorLabel(color)}. ${next.name} roba 4 y pierde turno`)
+    }, getT().msgDraw4(cl(color), next.name))
   }
 
   return advance(msg({ ...base, drawnThisTurn: null },
-    `🌈 Color elegido: ${colorLabel(color)}. Turno de ${next.name}`))
+    getT().msgColorChosen(cl(color), next.name)))
 }
 
 export function actionDraw(state: GameState): GameState {
@@ -199,23 +202,23 @@ export function actionDraw(state: GameState): GameState {
   const newState = { ...state, players: newPlayers, deck, discardPile: discard, drawnThisTurn: drawnCard }
 
   if (canPlay(drawnCard, newState)) {
-    return msg(newState, `${player.name} robó una carta. ¡Podés jugarla!`)
+    return msg(newState, getT().msgDrew(player.name))
   }
 
   return advance(msg({ ...newState, drawnThisTurn: null },
-    `${player.name} robó y pasó. Turno de ${newState.players[nextIdx(newState)].name}`))
+    getT().msgDrewPassed(player.name, newState.players[nextIdx(newState)].name)))
 }
 
 export function actionPassAfterDraw(state: GameState): GameState {
   return advance(msg({ ...state, drawnThisTurn: null },
-    `Turno de ${state.players[nextIdx(state)].name}`))
+    getT().msgTurnOf(state.players[nextIdx(state)].name)))
 }
 
 export function actionSayUno(state: GameState, playerId: string): GameState {
   const player = state.players.find(p => p.id === playerId)
   if (!player) return state
   return msg({ ...state, unoSaid: { ...state.unoSaid, [playerId]: true } },
-    `🗣️ ¡${player.name} dijo UNO!`)
+    getT().msgUno(player.name))
 }
 
 export function actionCatchUno(state: GameState, targetId: string): GameState {
@@ -228,7 +231,7 @@ export function actionCatchUno(state: GameState, targetId: string): GameState {
     i === targetIdx ? { ...p, hand: [...p.hand, ...drawn] } : p
   )
   return msg({ ...state, players: newPlayers, deck, discardPile: discard },
-    `😂 ${target.name} no dijo UNO y roba 2 cartas!`)
+    getT().msgCatchUno(target.name))
 }
 
 // ─── bot AI ──────────────────────────────────────────────────────────────────
@@ -270,8 +273,8 @@ function handleWin(state: GameState, winner: Player): GameState {
     roundWinner: winner.id,
     phase: gameOver ? 'game-end' : 'round-end',
     message: gameOver
-      ? `🏆 ¡${winner.name} ganó la partida con ${newScores[winner.id]} puntos!`
-      : `🎉 ¡${winner.name} ganó la ronda y suma ${points} puntos!`,
+      ? getT().msgGameWon(winner.name, newScores[winner.id])
+      : getT().msgRoundWon(winner.name, points),
   }
 }
 

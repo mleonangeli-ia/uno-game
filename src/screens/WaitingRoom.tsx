@@ -1,6 +1,7 @@
 import { useGameStore } from '../store/gameStore'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import QRCard from '../components/QRCard'
+import { useT } from '../i18n'
 
 const COLORS = ['#E53935', '#1E88E5', '#43A047', '#FDD835', '#9C27B0', '#FF9800']
 
@@ -8,6 +9,7 @@ export default function WaitingRoom() {
   const { roomCode, roomPlayers, isHost, startOnlineGame, leaveRoom } = useGameStore()
   const bp = useBreakpoint()
   const isMobile = bp === 'mobile'
+  const t = useT()
 
   return (
     <div style={{
@@ -74,7 +76,7 @@ export default function WaitingRoom() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: 0 }}>
-              Jugadores
+              {t.waitingPlayers}
             </h2>
             <span style={{
               background: 'rgba(255,255,255,0.08)',
@@ -115,7 +117,7 @@ export default function WaitingRoom() {
                     color: '#FFD700', borderRadius: 6,
                     padding: '2px 9px', fontSize: 11, fontWeight: 700,
                   }}>
-                    HOST
+                    {t.hostTag}
                   </span>
                 )}
               </div>
@@ -138,7 +140,7 @@ export default function WaitingRoom() {
                   <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: 22 }}>?</span>
                 </div>
                 <span style={{ color: 'rgba(255,255,255,0.18)', fontSize: 14 }}>
-                  Esperando jugador...
+                  {t.waitingSlot}
                 </span>
               </div>
             ))}
@@ -152,8 +154,8 @@ export default function WaitingRoom() {
           }}>
             <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: 0, lineHeight: 1.6 }}>
               📱 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>Desde el celular:</strong> escaneá el QR con la cámara<br />
-              💻 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>Desde otra PC:</strong> copiá y pegá el link<br />
-              🔑 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>Alternativa:</strong> entrá al juego y usá el código <strong style={{ color: '#FFD700' }}>{roomCode}</strong>
+              💻 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>{t.scanInstPC}</strong> {t.scanInstPCD}<br />
+              🔑 <strong style={{ color: 'rgba(255,255,255,0.5)' }}>{t.altCode}</strong> <strong style={{ color: '#FFD700' }}>{roomCode}</strong>
             </p>
           </div>
 
@@ -197,7 +199,7 @@ export default function WaitingRoom() {
             border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 10, fontSize: 13, cursor: 'pointer',
           }}>
-            ← Salir de la sala
+            ← {t.leaveRoom}
           </button>
         </div>
       </div>

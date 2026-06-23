@@ -3,8 +3,10 @@ import { useGameStore } from '../store/gameStore'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import CardView from '../components/CardView'
 import ColorPicker from '../components/ColorPicker'
+import LanguageSelector from '../components/LanguageSelector'
 import { canPlay } from '../engine/rules'
 import { CardColor } from '../engine/types'
+import { useT } from '../i18n'
 
 const COLOR_HEX: Record<CardColor, string> = {
   red: '#E8171E', yellow: '#F5D800', green: '#1B9A3D',
@@ -168,6 +170,7 @@ export default function Game() {
 
   if (!game) return null
 
+  const t = useT()
   const currentPlayer = game.players[game.currentPlayerIndex]
   const topDiscard = game.discardPile[game.discardPile.length - 1]
 
@@ -198,7 +201,7 @@ export default function Game() {
           textAlign: 'center', margin: 0, fontWeight: 900,
           textShadow: '0 2px 12px rgba(255,215,0,0.4)',
         }}>
-          {isGameEnd ? '¡Partida terminada!' : '¡Ronda terminada!'}
+          {isGameEnd ? t.gameOver : t.roundOver}
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: isMobile ? 14 : 16, margin: 0, textAlign: 'center', padding: '0 8px' }}>
           {game.message}
@@ -212,7 +215,7 @@ export default function Game() {
           backdropFilter: 'blur(8px)',
         }}>
           <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 12 }}>
-            Puntajes — Meta: 500 pts
+            {t.scoresLabel}
           </p>
           {game.players.slice().sort((a, b) => (game.scores[b.id] || 0) - (game.scores[a.id] || 0)).map((p, rank) => (
             <div key={p.id} style={{
@@ -242,13 +245,13 @@ export default function Game() {
               color: '#FFD700', border: 'none', borderRadius: 14,
               fontSize: 15, fontWeight: 800, cursor: 'pointer',
               boxShadow: '0 6px 20px rgba(232,23,30,0.45)',
-            }}>▶ Nueva ronda</button>
+            }}>{t.newRound}</button>
           )}
           <button onClick={resetToSetup} style={{
             padding: '13px 26px', background: 'rgba(255,255,255,0.08)',
             color: '#fff', border: '1px solid rgba(255,255,255,0.15)',
             borderRadius: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer',
-          }}>🏠 Menú</button>
+          }}>{t.mainMenu}</button>
         </div>
       </div>
     )
@@ -284,11 +287,14 @@ export default function Game() {
         borderBottom: '1px solid rgba(255,255,255,0.07)',
         gap: 8, flexWrap: 'wrap',
       }}>
-        <button onClick={resetToSetup} style={{
-          background: 'transparent', border: '1px solid rgba(255,255,255,0.18)',
-          color: 'rgba(255,255,255,0.5)', borderRadius: 8, padding: '4px 10px',
-          cursor: 'pointer', fontSize: 11, fontWeight: 700, flexShrink: 0,
-        }}>✕ Salir</button>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+          <button onClick={resetToSetup} style={{
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.18)',
+            color: 'rgba(255,255,255,0.5)', borderRadius: 8, padding: '4px 10px',
+            cursor: 'pointer', fontSize: 11, fontWeight: 700,
+          }}>{t.exitBtn}</button>
+          <LanguageSelector compact />
+        </div>
 
         {/* Scores */}
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', justifyContent: 'center', flex: 1 }}>
@@ -458,7 +464,7 @@ export default function Game() {
             </div>
             {canDraw && (
               <div style={{ color: '#4CAF50', fontSize: isMobile ? 11 : 12, fontWeight: 800, marginTop: 2, animation: 'pulse 1.4s ease-in-out infinite' }}>
-                ↑ Robar
+                ↑ {t.drawPile}
               </div>
             )}
           </div>
@@ -477,7 +483,7 @@ export default function Game() {
               <CardView card={topDiscard} small={smallCards} />
             </div>
           )}
-          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: isMobile ? 11 : 12 }}>Descarte</span>
+          <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: isMobile ? 11 : 12 }}>{t.discardLabel}</span>
         </div>
       </div>
 
@@ -501,7 +507,7 @@ export default function Game() {
           {isMyTurn ? (
             <>
               <span style={{ fontSize: 17 }}>✨</span>
-              <span style={{ color: '#fff', fontSize: isMobile ? 13 : 14, fontWeight: 800 }}>¡Tu turno!</span>
+              <span style={{ color: '#fff', fontSize: isMobile ? 13 : 14, fontWeight: 800 }}>{t.yourTurn}</span>
             </>
           ) : currentPlayer.isBot ? (
             <>
@@ -515,7 +521,7 @@ export default function Game() {
             <>
               <span style={{ fontSize: 17 }}>⏳</span>
               <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: isMobile ? 12 : 13, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                Turno de {currentPlayer.name}
+                {t.msgTurn(currentPlayer.name)}
               </span>
             </>
           )}
@@ -530,7 +536,7 @@ export default function Game() {
               fontSize: isMobile ? 12 : 13, fontWeight: 900, cursor: 'pointer',
               boxShadow: '0 3px 14px rgba(232,23,30,0.55)',
               animation: 'pulse 0.85s ease-in-out infinite', letterSpacing: 0.5,
-            }}>🗣️ ¡UNO!</button>
+            }}>🗣️ {t.unoBtn}</button>
           )}
           {isMyTurn && game.drawnThisTurn && (
             <button onClick={passAfterDraw} style={{
@@ -538,7 +544,7 @@ export default function Game() {
               background: 'rgba(255,255,255,0.1)',
               color: '#fff', border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: 10, fontSize: isMobile ? 11 : 12, fontWeight: 700, cursor: 'pointer',
-            }}>Pasar →</button>
+            }}>{t.passBtn}</button>
           )}
           {!isMobile && (
             <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, maxWidth: 200, textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -563,8 +569,8 @@ export default function Game() {
         minHeight: fanH + 30,
       }}>
         <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, marginBottom: 2, textAlign: 'center' }}>
-          {onlineMode ? `${myPlayer.name} (vos)` : myPlayer.name}
-          {' · '}{myHand.length} {myHand.length === 1 ? 'carta' : 'cartas'}
+          {onlineMode ? `${myPlayer.name} (${t.meTag})` : myPlayer.name}
+          {' · '}{myHand.length} {myHand.length === 1 ? t.cardWord : t.cardsWord}
         </div>
 
         <FanHand

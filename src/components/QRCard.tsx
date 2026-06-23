@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import { useT } from '../i18n'
 
 interface Props {
   roomCode: string
@@ -9,6 +10,7 @@ export default function QRCard({ roomCode }: Props) {
   const [qrDataUrl, setQrDataUrl] = useState('')
   const [joinUrl, setJoinUrl] = useState('')
   const [copied, setCopied] = useState(false)
+  const t = useT()
 
   useEffect(() => {
     async function build() {
@@ -103,7 +105,7 @@ export default function QRCard({ roomCode }: Props) {
       </div>
 
       <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, margin: 0, textAlign: 'center' }}>
-        Abrí la URL o escaneá el QR desde cualquier dispositivo en la misma red
+        {t.scanNote}
       </p>
     </div>
   )

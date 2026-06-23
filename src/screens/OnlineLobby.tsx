@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useGameStore } from '../store/gameStore'
+import { useT } from '../i18n'
+import LanguageSelector from '../components/LanguageSelector'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 
 export default function OnlineLobby() {
   const { createRoom, joinRoom, leaveRoom, roomError, clearRoomError } = useGameStore()
+  const t = useT()
   const isMobile = useBreakpoint() === 'mobile'
   const [name, setName] = useState('')
   const [code, setCode] = useState('')
